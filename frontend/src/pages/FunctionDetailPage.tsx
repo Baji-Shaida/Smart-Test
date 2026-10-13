@@ -10,8 +10,8 @@ import type { FunctionRecord, TestRecord } from '../types'
 export function BugBlock({ test }: { test: TestRecord }) {
   return (
     <section aria-label="Possible bug details" className="rounded-xl border-2 border-orange-400 bg-orange-50 p-4 dark:border-orange-700 dark:bg-orange-950/40">
-      <h3 className="flex items-center gap-2 font-semibold text-orange-800 dark:text-orange-200">
-        <span aria-hidden>⚠</span> Possible bug found by <code className="font-mono text-sm">{test.name}</code>
+      <h3 className="flex flex-wrap items-center gap-2 font-semibold text-orange-800 dark:text-orange-200">
+        <span aria-hidden>⚠</span> Possible bug found by <code className="break-all font-mono text-sm">{test.name}</code>
       </h3>
       <dl className="mt-3 grid gap-3 text-sm sm:grid-cols-2">
         <div>
@@ -189,8 +189,8 @@ export default function FunctionDetailPage() {
                 <button type="button" className="font-mono text-indigo-700 hover:underline dark:text-indigo-300" onClick={() => setTab(i)}>
                   {t.name}
                 </button>
-                <span className="flex items-center gap-2 text-xs text-slate-500">
-                  <span className="max-w-md truncate">{t.reason}</span>
+                <span className="flex min-w-0 items-center gap-2 text-xs text-slate-500">
+                  <span className="min-w-0 max-w-md truncate">{t.reason}</span>
                   <StatusChip status={t.status} small />
                 </span>
               </li>
