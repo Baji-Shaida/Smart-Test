@@ -1,0 +1,34 @@
+# Runtime data / job workspaces / uploads
+data/
+backend/data/
+# Generated demo repository (contains its own .git)
+sample_repo/
+/sample_repo*/
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+# Node / build output
+node_modules/
+dist/
+build/
+frontend/dist/
+*.tsbuildinfo
+# Env / secrets
+.env
+.env.local
+# Model files
+*.gguf
+*.bin
+models/
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
