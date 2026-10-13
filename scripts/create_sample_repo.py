@@ -38,7 +38,7 @@ HISTORY: list[tuple[int, str, dict[str, set[str] | None]]] = [
         "tests/test_cart.py": {"pytest", "Cart", "test_add_item_new_and_existing", "test_add_item_rejects_bad_quantity"},
     }),
     (60, "Add Cart.remove_item", {"cart.py": {"Cart", "Cart.__init__", "Cart.add_item", "Cart.remove_item"}}),
-    (40, "Add email validation", {"utils.py": None}),
+    (40, "Add email validation and utils tests", {"utils.py": None, "tests/test_utils.py": None}),
     (21, "Add calculate_discount and Cart.cart_total", {
         "billing.py": {"calculate_discount", "tax_for"},
         "cart.py": None,
