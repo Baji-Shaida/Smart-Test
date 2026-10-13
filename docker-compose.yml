@@ -1,0 +1,22 @@
+# Optional: run SmartTest in containers for stronger isolation of uploaded code.
+# Ollama keeps running on the host (it needs the GPU); the backend reaches it via host.docker.internal.
+#   docker compose up --build      -> http://localhost:5173
+services:
+  backend:
+    build: ./backend
+    environment:
+      LLM_PROVIDER: ${LLM_PROVIDER:-ollama}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen2.5-coder:7b}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8000:8000"
+  frontend:
+    build: ./frontend
+    environment:
+      VITE_BACKEND_URL: http://backend:8000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
