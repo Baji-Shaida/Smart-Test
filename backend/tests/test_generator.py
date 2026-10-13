@@ -36,7 +36,8 @@ def test_import_statements():
     assert import_statement({"module": "billing", "name": "f", "is_method": False}) == "from billing import f"
     assert import_statement({"module": "pkg.cart", "name": "m", "is_method": True, "class_name": "Cart"}) \
         == "from pkg.cart import Cart"
-    assert generated_test_filename({"module": "pkg.cart", "qualname": "Cart.add_item"}) == "test_pkg_cart__Cart_add_item.py"
+    name = generated_test_filename({"module": "pkg.cart", "qualname": "Cart.add_item"})
+    assert name == "test_pkg_cart__Cart_add_item.py"
 
 
 def test_src_layout_import(tmp_path):
@@ -91,7 +92,8 @@ def test_retry_gives_up_after_two_retries(funcs):
     by_id, _ = funcs
     client = MockLLMClient()
     res = TestGenerator(client, max_retries=2).generate(
-        by_id["cart.py::Cart.remove_item"], [], lambda code: "trivial test" if "assert True" in code or "1 == 1" in code else None
+        by_id["cart.py::Cart.remove_item"], [],
+        lambda code: "trivial test" if "assert True" in code or "1 == 1" in code else None,
     )
     assert not res.ok and res.attempts == 3 and len(client.calls) == 3
 
@@ -100,7 +102,8 @@ def test_mock_verification_json(funcs):
     by_id, _ = funcs
     client = MockLLMClient()
     import json
-    out = json.loads(client.generate(build_verification_prompt(by_id["billing.py::apply_coupon"], "def test(): ...", "E assert 50 == 45.0")))
+    prompt = build_verification_prompt(by_id["billing.py::apply_coupon"], "def test(): ...", "E assert 50 == 45.0")
+    out = json.loads(client.generate(prompt))
     assert out["verdict"] == "likely_bug"
 
 
