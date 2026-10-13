@@ -62,7 +62,7 @@ def _signature(fn: ast.FunctionDef | ast.AsyncFunctionDef) -> str:
     parts: list[str] = []
     positional = a.posonlyargs + a.args
     defaults = [None] * (len(positional) - len(a.defaults)) + list(a.defaults)
-    for i, (arg, default) in enumerate(zip(positional, defaults)):
+    for i, (arg, default) in enumerate(zip(positional, defaults, strict=True)):
         text = arg.arg + (f": {ast.unparse(arg.annotation)}" if arg.annotation else "")
         if default is not None:
             text += f" = {ast.unparse(default)}" if arg.annotation else f"={ast.unparse(default)}"
@@ -73,7 +73,7 @@ def _signature(fn: ast.FunctionDef | ast.AsyncFunctionDef) -> str:
         parts.append("*" + a.vararg.arg + (f": {ast.unparse(a.vararg.annotation)}" if a.vararg.annotation else ""))
     elif a.kwonlyargs:
         parts.append("*")
-    for arg, default in zip(a.kwonlyargs, a.kw_defaults):
+    for arg, default in zip(a.kwonlyargs, a.kw_defaults, strict=True):
         text = arg.arg + (f": {ast.unparse(arg.annotation)}" if arg.annotation else "")
         if default is not None:
             text += f" = {ast.unparse(default)}" if arg.annotation else f"={ast.unparse(default)}"
@@ -172,9 +172,11 @@ def _record(rel: str, fn: ast.FunctionDef | ast.AsyncFunctionDef, source_lines: 
     positional = a.posonlyargs + a.args
     defaults = {
         arg.arg: ast.unparse(d)
-        for arg, d in zip(positional[len(positional) - len(a.defaults):], a.defaults)
+        for arg, d in zip(positional[len(positional) - len(a.defaults):], a.defaults, strict=True)
     }
-    defaults.update({arg.arg: ast.unparse(d) for arg, d in zip(a.kwonlyargs, a.kw_defaults) if d is not None})
+    defaults.update(
+        {arg.arg: ast.unparse(d) for arg, d in zip(a.kwonlyargs, a.kw_defaults, strict=True) if d is not None}
+    )
     return {
         "id": f"{rel}::{qualname}",
         "file": rel,

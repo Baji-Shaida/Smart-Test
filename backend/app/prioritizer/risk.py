@@ -16,7 +16,7 @@ def open_repo(root: Path):
         return None
     try:
         repo = git.Repo(str(root), search_parent_directories=False)
-        repo.head.commit  # raises if there are no commits
+        _ = repo.head.commit  # raises if there are no commits
         return repo
     except Exception:  # noqa: BLE001
         return None
