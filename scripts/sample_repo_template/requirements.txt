@@ -1,0 +1,1 @@
+# The demo shop has no third-party runtime dependencies.

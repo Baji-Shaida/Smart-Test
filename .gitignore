@@ -4,6 +4,7 @@ backend/data/
 # Generated demo repository (contains its own .git)
 sample_repo/
 /sample_repo*/
+sample_repo.zip
 # Python
 venv/
 .venv/
